@@ -25,4 +25,6 @@ public:
 private:
 	//move the tank barrel towards the cross hair would hit the world
 	void AimTowardsCrosshair();
+
+	bool GetSightRayHitLocation(FVector & Hit) const;
 };

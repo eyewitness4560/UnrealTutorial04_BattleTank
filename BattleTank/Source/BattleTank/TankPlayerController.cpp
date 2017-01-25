@@ -19,7 +19,8 @@ void ATankPlayerController::BeginPlay()
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("TickDelta: %f"), DeltaTime);
+	//UE_LOG(LogTemp, Warning, TEXT("TickDelta: %f"), DeltaTime);
+	AimTowardsCrosshair();
 }
 #pragma endregion UE4 Begin, Tick
 
@@ -32,9 +33,22 @@ void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetControlledTank()) return;
 
-	//GetWorldLoc through cross hair
+
+	FVector HitLocation; //OUT parameter
+
+	//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+
+	if (GetSightRayHitLocation(HitLocation))  //has a side effect that's going to line trace
+	{
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 		//if it hits something
 			// aim at the point
-
+	}
 }
 
+// get world location of line trace through cross hair
+bool ATankPlayerController::GetSightRayHitLocation(FVector& Hit) const
+{
+	Hit = FVector(1.0f);
+	return true;
+}
