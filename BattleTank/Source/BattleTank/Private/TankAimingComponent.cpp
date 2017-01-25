@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
 
+#pragma region UE
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -14,7 +15,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
@@ -24,7 +24,6 @@ void UTankAimingComponent::BeginPlay()
 	
 }
 
-
 // Called every frame
 void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
@@ -32,10 +31,19 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 
 	// ...
 }
+#pragma endregion UE
+
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+{
+	Barrel = BarrelToSet;
+}
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	auto OurTankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT(" %s Aiming at: %s"), *OurTankName, *HitLocation.ToString());
+	auto TankBarrelEnd = Barrel->GetComponentLocation().ToString();
+	UE_LOG(LogTemp, Warning, TEXT(" %s Aiming at: %s from %s"), *OurTankName, *HitLocation.ToString(), *TankBarrelEnd);
 }
+
+
 

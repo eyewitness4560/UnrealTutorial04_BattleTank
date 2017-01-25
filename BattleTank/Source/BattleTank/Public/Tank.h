@@ -26,10 +26,15 @@ public:
 
 #pragma endregion Ue
 
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	void AimAt(FVector HitLocation);
+
+	UFUNCTION(BlueprintCallable,Category = Setup)
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;

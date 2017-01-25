@@ -6,6 +6,9 @@
 
 #pragma region UE
 
+
+
+
 // Sets default values
 ATank::ATank()
 {
@@ -27,7 +30,12 @@ void ATank::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 }
+
+
+
 #pragma endregion UE
+
+
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponentParameters)
@@ -35,8 +43,23 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponentParam
 	Super::SetupPlayerInputComponent(InputComponentParameters);
 }
 
+
+
+#pragma region DelegatedStuff
+
+
+
 void ATank::AimAt(FVector HitLocation)
 {
 	TankAimingComponent->AimAt(HitLocation);
 }
+
+void ATank::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+{
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
+}
+
+
+
+#pragma endregion DelegatedStuff
 
