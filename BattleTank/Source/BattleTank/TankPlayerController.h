@@ -20,4 +20,9 @@ public:
 	ATank* GetControlledTank() const;
 
 	virtual void BeginPlay() override;
+	virtual void Tick(float) override;
+
+private:
+	//move the tank barrel towards the cross hair would hit the world
+	void AimTowardsCrosshair();
 };
