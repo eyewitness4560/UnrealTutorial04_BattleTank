@@ -42,9 +42,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLocation(HitLocation))  //has a side effect that's going to line trace
 	{
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
-		//if it hits something
-			// aim at the point
+		GetControlledTank()->AimAt(HitLocation);
 	}
 }
 

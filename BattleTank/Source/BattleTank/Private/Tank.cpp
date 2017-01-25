@@ -4,6 +4,8 @@
 #include "Tank.h"
 
 
+#pragma region UE
+
 // Sets default values
 ATank::ATank()
 {
@@ -25,11 +27,18 @@ void ATank::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 }
+#pragma endregion UE
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
 
+}
+
+void ATank::AimAt(FVector HitLocation)
+{
+	auto OurTankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT(" %s Aiming at: %s"),*OurTankName, *HitLocation.ToString());
 }
 

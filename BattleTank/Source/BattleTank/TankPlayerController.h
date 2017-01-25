@@ -19,15 +19,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float CrossHairXLocation = 0.5f;
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float CrossHairYLocation = 0.3333333f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float LineTraceRange = 1000000;
-
-
-private:
 
 	ATank* GetControlledTank() const;
 
