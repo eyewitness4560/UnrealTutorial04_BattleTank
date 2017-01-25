@@ -16,15 +16,26 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float CrossHairXLocation = 0.5f;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float CrossHairYLocation = 0.3333333f;
+
+
+private:
 
 	ATank* GetControlledTank() const;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float) override;
 
-private:
 	//move the tank barrel towards the cross hair would hit the world
 	void AimTowardsCrosshair();
 
 	bool GetSightRayHitLocation(FVector & Hit) const;
+
+	FVector2D ScreenLocation() const;
+
 };

@@ -4,6 +4,8 @@
 #include "BattleTank.h"
 #include "TankPlayerController.h"
 
+
+
 #pragma region UE4 Begin, Tick
 void ATankPlayerController::BeginPlay()
 {
@@ -40,7 +42,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLocation(HitLocation))  //has a side effect that's going to line trace
 	{
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("LookDirection: %s"), *HitLocation.ToString());
 		//if it hits something
 			// aim at the point
 	}
@@ -49,6 +51,21 @@ void ATankPlayerController::AimTowardsCrosshair()
 // get world location of line trace through cross hair
 bool ATankPlayerController::GetSightRayHitLocation(FVector& Hit) const
 {
-	Hit = FVector(1.0f);
-	return true;
+	//Find cross hair position
+
+	Hit = FVector(ScreenLocation(),0.f);
+	
+	// "DE project" screen position to world direction
+	//line trace through the projection, see what we hit (up to max range)
+	
+
+	return	true;
+}
+
+FVector2D ATankPlayerController::ScreenLocation() const
+{
+	int32 ViewportSizeX = 0;
+	int32 ViewportSizeY = 0;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	return FVector2D(ViewportSizeX*CrossHairXLocation, ViewportSizeY*CrossHairYLocation);
 }
