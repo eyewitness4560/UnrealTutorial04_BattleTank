@@ -42,24 +42,30 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLocation(HitLocation))  //has a side effect that's going to line trace
 	{
-		UE_LOG(LogTemp, Warning, TEXT("LookDirection: %s"), *HitLocation.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 		//if it hits something
 			// aim at the point
 	}
 }
 
 // get world location of line trace through cross hair
-bool ATankPlayerController::GetSightRayHitLocation(FVector& Hit) const
+bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
-	//Find cross hair position
 
-	Hit = FVector(ScreenLocation(),0.f);
-	
-	// "DE project" screen position to world direction
+	FVector CamWorldLoc;
+	FVector LookDir;
+	if (GetLookDirection(LookDir, CamWorldLoc))
+	{
+		if (GetLookVectorHitLocation(LookDir, CamWorldLoc, HitLocation))
+			return true;
+
+	}
 	//line trace through the projection, see what we hit (up to max range)
-	
 
-	return	true;
+
+
+
+	return	false;
 }
 
 FVector2D ATankPlayerController::ScreenLocation() const
@@ -68,4 +74,22 @@ FVector2D ATankPlayerController::ScreenLocation() const
 	int32 ViewportSizeY = 0;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	return FVector2D(ViewportSizeX*CrossHairXLocation, ViewportSizeY*CrossHairYLocation);
+}
+
+bool ATankPlayerController::GetLookDirection(FVector& LookDir, FVector& CamWorldLoc) const
+{
+	return DeprojectScreenPositionToWorld(ScreenLocation().X, ScreenLocation().Y, CamWorldLoc, LookDir);
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector& LookDirection, FVector& CameraWorldLocation, FVector& Hit) const
+{
+	FHitResult HitRes;
+	FCollisionQueryParams Params = FCollisionQueryParams(FName(NAME_None), false);
+	if (GetWorld()->LineTraceSingleByChannel(HitRes, CameraWorldLocation, CameraWorldLocation + LookDirection*LineTraceRange, ECollisionChannel::ECC_Visibility, Params))
+	{
+		Hit = HitRes.Location;
+		return true;
+	}
+	Hit = FVector(0);
+	return false;
 }

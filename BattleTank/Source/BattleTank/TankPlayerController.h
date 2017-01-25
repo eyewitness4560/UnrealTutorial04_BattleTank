@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float CrossHairYLocation = 0.3333333f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float LineTraceRange = 1000000;
+
 
 private:
 
@@ -34,8 +37,14 @@ private:
 	//move the tank barrel towards the cross hair would hit the world
 	void AimTowardsCrosshair();
 
-	bool GetSightRayHitLocation(FVector & Hit) const;
+	bool GetSightRayHitLocation(FVector &) const;
 
 	FVector2D ScreenLocation() const;
+
+	bool GetLookDirection(FVector&, FVector&) const;
+
+	bool GetLookVectorHitLocation(FVector&, FVector&,FVector&) const;
+
+
 
 };
