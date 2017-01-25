@@ -48,15 +48,15 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponentParam
 #pragma region DelegatedStuff
 
 
-
-void ATank::AimAt(FVector HitLocation)
-{
-	TankAimingComponent->AimAt(HitLocation);
-}
-
 void ATank::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+}
+
+
+void ATank::AimAt(FVector HitLocation)
+{
+	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
 }
 
 

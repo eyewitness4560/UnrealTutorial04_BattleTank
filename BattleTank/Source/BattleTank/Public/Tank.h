@@ -24,6 +24,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
 
+	UPROPERTY(EditAnywhere)
+	float LaunchSpeed = 10000; // TODO: FindSensibleDefault
+
+
 #pragma endregion Ue
 
 
@@ -32,7 +36,7 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable,Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
 
