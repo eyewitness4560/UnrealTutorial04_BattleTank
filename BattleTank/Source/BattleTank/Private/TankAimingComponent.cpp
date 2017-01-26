@@ -9,6 +9,7 @@
 
 #pragma region UE
 
+ 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
@@ -47,11 +48,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 		auto DesiredAimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrel(DesiredAimDirection);
 		MoveTurret(DesiredAimDirection);
-	}
-	else
-	{
-		auto time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Error, TEXT("No aim solution found: %f "), time);
 	}
 }
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)

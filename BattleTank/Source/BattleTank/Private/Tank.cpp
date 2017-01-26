@@ -39,15 +39,22 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponentParam
 #pragma region DelegatedStuff
 
 
-void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
+void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
-
-
 void ATank::SetTurretReference(UTankTurret* TurretToSet)
 {
 	TankAimingComponent->SeTTurretReference(TurretToSet);
+}
+
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("1 2 3"));
+	UE_LOG(LogTemp, Error, TEXT("Fire!"));
+	UE_LOG(LogTemp, Warning, TEXT("Hey!"));
+	UE_LOG(LogTemp, Warning, TEXT("Hey!"));
+	UE_LOG(LogTemp, Warning, TEXT("Hey!"));
 }
 
 void ATank::AimAt(FVector HitLocation)
