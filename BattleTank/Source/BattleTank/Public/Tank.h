@@ -25,7 +25,7 @@ public:
 #pragma endregion Ue
 
 	UPROPERTY(EditAnywhere)
-	float LaunchSpeed = 10000; 
+	float LaunchSpeed = 6000; 
 
 
 
