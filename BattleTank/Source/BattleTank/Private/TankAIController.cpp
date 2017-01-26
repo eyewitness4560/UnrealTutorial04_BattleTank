@@ -2,6 +2,9 @@
 #pragma once
 
 #include "BattleTank.h"
+
+#include "Public/Tank.h"
+
 #include "TankAIController.h"
 
 void ATankAIController::BeginPlay()

@@ -21,17 +21,12 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	// Called every frame
-	virtual void Tick(float DeltaSeconds) override;
+#pragma endregion Ue
 
 	UPROPERTY(EditAnywhere)
 	float LaunchSpeed = 10000; // TODO: FindSensibleDefault
 
 
-#pragma endregion Ue
 
 
 	// Called to bind functionality to input

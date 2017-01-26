@@ -3,8 +3,9 @@
 #pragma once
 
 #include "GameFramework/PlayerController.h"
-#include "Public/Tank.h"
 #include "TankPlayerController.generated.h" //must be last included
+
+class ATank;
 
 /**
  *
