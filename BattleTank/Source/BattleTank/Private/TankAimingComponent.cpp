@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+
+#include "Public/TankBarrel.h"
+
 #include "TankAimingComponent.h"
 
 #pragma region UE
@@ -17,11 +20,10 @@ UTankAimingComponent::UTankAimingComponent()
 
 #pragma endregion UE
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
-
 
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
@@ -49,12 +51,8 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
 
 	UE_LOG(LogTemp, Warning, TEXT(" %s "), *DeltaRotator.ToString());
-	// move the barrel right amount per frame
 
-
-
-	// given max elevation speed
-
+	Barrel->Elevate(5); //TODO: remove magic number
 
 }
 

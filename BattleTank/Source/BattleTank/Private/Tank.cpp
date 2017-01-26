@@ -1,13 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+
+
 #include "BattleTank.h"
+
+#include "Public/TankBarrel.h"
+#include "Public/TankAimingComponent.h"
+
 #include "Tank.h"
 
 
 #pragma region UE
-
-
-
 
 // Sets default values
 ATank::ATank()
@@ -31,8 +34,6 @@ void ATank::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 }
 
-
-
 #pragma endregion UE
 
 
@@ -48,7 +49,7 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponentParam
 #pragma region DelegatedStuff
 
 
-void ATank::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
