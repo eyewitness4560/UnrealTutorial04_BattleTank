@@ -5,6 +5,7 @@
 #include "BattleTank.h"
 
 #include "Public/TankBarrel.h"
+#include "Public/TankTurret.h"
 #include "Public/TankAimingComponent.h"
 
 #include "Tank.h"
@@ -15,7 +16,7 @@
 // Sets default values
 ATank::ATank()
 {
- 	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = false;
 
 	// no need to protect pointers as added as construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
@@ -44,9 +45,14 @@ void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 }
 
 
+void ATank::SetTurretReference(UTankTurret* TurretToSet)
+{
+	TankAimingComponent->SeTTurretReference(TurretToSet);
+}
+
 void ATank::AimAt(FVector HitLocation)
 {
-	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
+	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 

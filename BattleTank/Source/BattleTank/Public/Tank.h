@@ -8,6 +8,7 @@
 
 class UTankAimingComponent;
 class UTankBarrel;
+class UTankTurret;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -24,7 +25,7 @@ public:
 #pragma endregion Ue
 
 	UPROPERTY(EditAnywhere)
-	float LaunchSpeed = 10000; // TODO: FindSensibleDefault
+	float LaunchSpeed = 10000; 
 
 
 
@@ -35,7 +36,10 @@ public:
 	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
+		void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetTurretReference(UTankTurret* TurretToSet);
 
 
 protected:

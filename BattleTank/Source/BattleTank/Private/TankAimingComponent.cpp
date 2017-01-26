@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 
 #include "Public/TankBarrel.h"
+#include "Public/TankTurret.h"
 
 #include "TankAimingComponent.h"
 
@@ -26,9 +27,14 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 }
 
 
+void UTankAimingComponent::SeTTurretReference(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 {
-	if (!Barrel) return;
+	if (!Barrel || !Turret) return;
 
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -40,6 +46,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 	{
 		auto DesiredAimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrel(DesiredAimDirection);
+		MoveTurret(DesiredAimDirection);
 	}
 	else
 	{
@@ -54,10 +61,21 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
 
-	UE_LOG(LogTemp, Warning, TEXT(" %s "), *DeltaRotator.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT(" %s "), *DeltaRotator.ToString());
 
-	Barrel->Elevate(DeltaRotator.Pitch); //TODO: remove magic number
+	Barrel->Elevate(DeltaRotator.Pitch);
 
 }
 
+void UTankAimingComponent::MoveTurret(FVector AimDirection)
+{
+	auto TurretRotation = Turret->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - TurretRotation;
+
+	//UE_LOG(LogTemp, Warning, TEXT(" Turret aiming at %s "), *AimDirection.ToString());
+
+	Turret->Turn(DeltaRotator.Yaw);
+	
+}
 
