@@ -27,11 +27,13 @@ public:
 
 #pragma endregion Ue
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Firing")
 		float LaunchSpeed = 6000;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float ReloadTimeInSecs = 3.0;
 
-
+	double LastFireTime = FPlatformTime::Seconds();
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
@@ -47,7 +49,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Firing)
 		void Fire();
 
-	UPROPERTY(EditAnywhere, Category = "Setup")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 

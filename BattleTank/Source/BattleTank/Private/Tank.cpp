@@ -36,9 +36,7 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponentParam
 }
 
 
-
 #pragma region DelegatedStuff
-
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
@@ -52,13 +50,17 @@ void ATank::SetTurretReference(UTankTurret* TurretToSet)
 
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Launched @ %f"),LaunchSpeed);
+	UE_LOG(LogTemp, Warning, TEXT("Launched"));
 
-	if (!Barrel) return;
+	bool IsReloaded = ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSecs);
 
-	//spawn projectile at the socket location of the barrel
-	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
-	Projectile->LaunchProjectile(LaunchSpeed);
+	if (Barrel &&IsReloaded)
+	{
+		//spawn projectile at the socket location of the barrel
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
 
 void ATank::AimAt(FVector HitLocation)
@@ -70,8 +72,6 @@ void ATank::AimAt(FVector HitLocation)
 		OnAimingSolutionChange.Broadcast(HasAimingSolution);
 	}
 }
-
-
 
 #pragma endregion DelegatedStuff
 
