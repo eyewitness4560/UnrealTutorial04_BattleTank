@@ -33,9 +33,9 @@ void UTankAimingComponent::SeTTurretReference(UTankTurret* TurretToSet)
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
+bool UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 {
-	if (!Barrel || !Turret) return;
+	if (!Barrel || !Turret) return false;
 
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -49,6 +49,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 		MoveBarrel(DesiredAimDirection);
 		MoveTurret(DesiredAimDirection);
 	}
+	return bHaveAimSolution;
 }
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {

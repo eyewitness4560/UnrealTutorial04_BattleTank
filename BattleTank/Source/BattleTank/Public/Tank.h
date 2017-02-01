@@ -10,6 +10,8 @@ class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAimingSolutionChange, bool, AimingSolutionFound);
+
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -44,7 +46,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Firing)
 		void Fire();
 
+	UPROPERTY(BlueprintAssignable,Category="Aiming")
+	FOnAimingSolutionChange OnAimingSolutionChange;
+
+
 protected:
+
+	bool HasAimingSolution = false;
+
+
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
 

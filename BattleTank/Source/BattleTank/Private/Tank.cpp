@@ -59,7 +59,12 @@ void ATank::Fire()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
+	bool CurrentAimingSolution = TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
+	if (CurrentAimingSolution != HasAimingSolution)
+	{
+		HasAimingSolution = CurrentAimingSolution;
+		OnAimingSolutionChange.Broadcast(HasAimingSolution);
+	}
 }
 
 

@@ -20,7 +20,7 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void AimAt(FVector HitLocation, float Speed);
+	bool AimAt(FVector HitLocation, float Speed);
 
 
 
