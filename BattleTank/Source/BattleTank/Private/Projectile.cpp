@@ -38,3 +38,8 @@ void AProjectile::LaunchProjectile(float speed)
 	ProjectileMovementComponent->Activate();
 }
 
+UProjectileMovementComponent* AProjectile::GetProjectileMovementComponent()
+{
+	return ProjectileMovementComponent;
+}
+
