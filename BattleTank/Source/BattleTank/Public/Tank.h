@@ -9,6 +9,7 @@
 class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAimingSolutionChange, bool, AimingSolutionFound);
 
@@ -27,7 +28,7 @@ public:
 #pragma endregion Ue
 
 	UPROPERTY(EditAnywhere)
-	float LaunchSpeed = 6000; 
+		float LaunchSpeed = 6000;
 
 
 
@@ -46,8 +47,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Firing)
 		void Fire();
 
-	UPROPERTY(BlueprintAssignable,Category="Aiming")
-	FOnAimingSolutionChange OnAimingSolutionChange;
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		TSubclassOf<AProjectile> ProjectileBlueprint;
+
+
+
+
+	UPROPERTY(BlueprintAssignable, Category = "Aiming")
+		FOnAimingSolutionChange OnAimingSolutionChange;
+
+	UTankBarrel* Barrel = nullptr; // local barrel reference for spawning projectile
 
 
 protected:
