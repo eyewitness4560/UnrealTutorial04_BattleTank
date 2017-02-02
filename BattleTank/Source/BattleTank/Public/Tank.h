@@ -7,6 +7,7 @@
 
 
 class UTankAimingComponent;
+class UTankMovementComponent;
 class UTankBarrel;
 class UTankTurret;
 class AProjectile;
@@ -56,7 +57,7 @@ public:
 
 
 	UPROPERTY(BlueprintAssignable, Category = "Aiming")
-		FOnAimingSolutionChange OnAimingSolutionChange;
+	FOnAimingSolutionChange OnAimingSolutionChange;
 
 	UTankBarrel* Barrel = nullptr; // local barrel reference for spawning projectile
 
@@ -64,8 +65,6 @@ public:
 protected:
 
 	bool HasAimingSolution = false;
-
-
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
 

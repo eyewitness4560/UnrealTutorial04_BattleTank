@@ -7,6 +7,7 @@
 #include "Public/TankBarrel.h"
 #include "Public/TankTurret.h"
 #include "Public/TankAimingComponent.h"
+#include "Public/TankMovementComponent.h"
 #include "Public/Projectile.h"
 
 #include "Tank.h"
@@ -21,9 +22,8 @@ ATank::ATank()
 
 	// no need to protect pointers as added as construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
+
 }
-
-
 
 #pragma endregion UE
 
@@ -62,6 +62,7 @@ void ATank::Fire()
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }
+
 
 void ATank::AimAt(FVector HitLocation)
 {
