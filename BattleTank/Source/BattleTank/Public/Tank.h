@@ -12,7 +12,6 @@ class UTankBarrel;
 class UTankTurret;
 class AProjectile;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAimingSolutionChange, bool, AimingSolutionFound);
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -41,12 +40,6 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetTurretReference(UTankTurret* TurretToSet);
-
 	UFUNCTION(BlueprintCallable, Category = Firing)
 		void Fire();
 
@@ -54,18 +47,17 @@ public:
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		void Initialize(UTankAimingComponent* AimingComponentToSet, UTankBarrel* BarrelToSet);
 
-
-	UPROPERTY(BlueprintAssignable, Category = "Aiming")
-	FOnAimingSolutionChange OnAimingSolutionChange;
-
-	UTankBarrel* Barrel = nullptr; // local barrel reference for spawning projectile
-
+	UFUNCTION(BLueprintCallable, Category = "Setup")
+		UTankAimingComponent* GetTankAimingComponent() const;
 
 protected:
 
-	bool HasAimingSolution = false;
+	UTankAimingComponent * TankAimingComponent = nullptr;
+	UTankBarrel * Barrel = nullptr;
 
-	UTankAimingComponent* TankAimingComponent = nullptr;
+	bool HasAimingSolution = false;
 
 };

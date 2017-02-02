@@ -26,7 +26,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float LineTraceRange = 1000000;
 
-	ATank* GetControlledTank() const;
+
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float) override;
@@ -40,8 +40,10 @@ public:
 
 	bool GetLookDirection(FVector&, FVector&) const;
 
-	bool GetLookVectorHitLocation(FVector&, FVector&,FVector&) const;
+	bool GetLookVectorHitLocation(FVector&, FVector&, FVector&) const;
 
-
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		ATank* GetControlledTank() const;
 
 };

@@ -19,10 +19,6 @@
 ATank::ATank()
 {
 	PrimaryActorTick.bCanEverTick = false;
-
-	// no need to protect pointers as added as construction
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
-
 }
 
 #pragma endregion UE
@@ -38,15 +34,6 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponentParam
 
 #pragma region DelegatedStuff
 
-void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	Barrel = BarrelToSet;
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-}
-void ATank::SetTurretReference(UTankTurret* TurretToSet)
-{
-	TankAimingComponent->SeTTurretReference(TurretToSet);
-}
 
 void ATank::Fire()
 {
@@ -54,7 +41,7 @@ void ATank::Fire()
 
 	bool IsReloaded = ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSecs);
 
-	if (Barrel &&IsReloaded)
+	if (Barrel && IsReloaded)
 	{
 		//spawn projectile at the socket location of the barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
@@ -63,6 +50,17 @@ void ATank::Fire()
 	}
 }
 
+void ATank::Initialize(UTankAimingComponent * AimingComponentToSet, UTankBarrel * BarrelToSet)
+{
+	if (!AimingComponentToSet || !BarrelToSet) return;
+	TankAimingComponent = AimingComponentToSet;
+	Barrel = BarrelToSet;
+}
+
+UTankAimingComponent* ATank::GetTankAimingComponent() const
+{
+	return TankAimingComponent;
+}
 
 void ATank::AimAt(FVector HitLocation)
 {
@@ -70,7 +68,6 @@ void ATank::AimAt(FVector HitLocation)
 	if (CurrentAimingSolution != HasAimingSolution)
 	{
 		HasAimingSolution = CurrentAimingSolution;
-		OnAimingSolutionChange.Broadcast(HasAimingSolution);
 	}
 }
 

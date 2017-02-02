@@ -9,29 +9,19 @@
 
 #pragma region UE
 
- 
+
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;   // TODO:should this tick?
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
 
 #pragma endregion UE
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
-{
-	Barrel = BarrelToSet;
-}
-
-
-void UTankAimingComponent::SeTTurretReference(UTankTurret* TurretToSet)
-{
-	Turret = TurretToSet;
-}
 
 bool UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 {
@@ -51,14 +41,19 @@ bool UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 	}
 	return bHaveAimSolution;
 }
+
+void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
+{
+	if (!BarrelToSet || !TurretToSet) return;
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {
-	// work out difference between current rot and aim direction
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
-
-	//UE_LOG(LogTemp, Warning, TEXT(" %s "), *DeltaRotator.ToString());
 
 	Barrel->Elevate(DeltaRotator.Pitch);
 
@@ -73,6 +68,6 @@ void UTankAimingComponent::MoveTurret(FVector AimDirection)
 	//UE_LOG(LogTemp, Warning, TEXT(" Turret aiming at %s "), *AimDirection.ToString());
 
 	Turret->Turn(DeltaRotator.Yaw);
-	
+
 }
 
