@@ -17,6 +17,10 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 	IntendMoveForward(FVector::DotProduct(TankForward, AIForwardIntention));
 
+	auto RightThrow = FVector::CrossProduct(AIForwardIntention, TankForward).Z;
+
+	IntendTurnRight(FMath::Clamp((RightThrow*100.f), -1.f, 1.f));
+
 	UE_LOG(LogTemp, Warning, TEXT(" %s movement direction is %s"), *GetOwner()->GetName(), *(AIForwardIntention.ToString()));
 	GoThisWay = AIForwardIntention;
 }
