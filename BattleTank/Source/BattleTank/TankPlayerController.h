@@ -5,7 +5,6 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h" //must be last included
 
-class ATank;
 class UTankAimingComponent;
 
 
@@ -18,7 +17,14 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
+public:	
+	#pragma region UE
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float) override;
+
+#pragma endregion UE
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float CrossHairXLocation = 0.5f;
 
@@ -29,19 +35,10 @@ public:
 		float LineTraceRange = 1000000;
 
 
-
-	virtual void BeginPlay() override;
-	virtual void Tick(float) override;
-
-	//move the tank barrel towards the cross hair would hit the world
 	void AimTowardsCrosshair();
-
 	bool GetSightRayHitLocation(FVector &) const;
-
 	FVector2D ScreenLocation() const;
-
 	bool GetLookDirection(FVector&, FVector&) const;
-
 	bool GetLookVectorHitLocation(FVector&, FVector&, FVector&) const;
 
 protected:

@@ -30,8 +30,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
-	// TODO: Fix firing
-	// ControlledTank->Fire();
+	AimingComponent->Fire();
 }
 
 #pragma endregion

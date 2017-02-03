@@ -39,8 +39,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 		AimingComponent->AimAt(HitLocation);
 	}
 }
-
-// get world location of line trace through cross hair
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
 
@@ -59,7 +57,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 
 	return	false;
 }
-
 FVector2D ATankPlayerController::ScreenLocation() const
 {
 	int32 ViewportSizeX = 0;
@@ -67,12 +64,10 @@ FVector2D ATankPlayerController::ScreenLocation() const
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	return FVector2D(ViewportSizeX*CrossHairXLocation, ViewportSizeY*CrossHairYLocation);
 }
-
 bool ATankPlayerController::GetLookDirection(FVector& LookDir, FVector& CamWorldLoc) const
 {
 	return DeprojectScreenPositionToWorld(ScreenLocation().X, ScreenLocation().Y, CamWorldLoc, LookDir);
 }
-
 bool ATankPlayerController::GetLookVectorHitLocation(FVector& LookDirection, FVector& CameraWorldLocation, FVector& Hit) const
 {
 	FHitResult HitRes;
