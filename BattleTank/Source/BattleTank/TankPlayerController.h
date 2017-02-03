@@ -6,6 +6,7 @@
 #include "TankPlayerController.generated.h" //must be last included
 
 class ATank;
+class UTankAimingComponent;
 
 /**
  *
@@ -46,4 +47,6 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		ATank* GetControlledTank() const;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComponent(UTankAimingComponent* AimingCompRef);
 };

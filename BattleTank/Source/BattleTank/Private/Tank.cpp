@@ -25,19 +25,8 @@ ATank::ATank()
 
 
 
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponentParameters)
-{
-	Super::SetupPlayerInputComponent(InputComponentParameters);
-}
-
-
-#pragma region DelegatedStuff
-
-
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Launched"));
 
 	bool IsReloaded = ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSecs);
 
@@ -46,6 +35,7 @@ void ATank::Fire()
 		//spawn projectile at the socket location of the barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 		Projectile->LaunchProjectile(LaunchSpeed);
+		UE_LOG(LogTemp, Warning, TEXT("Launched "));
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }
@@ -70,6 +60,4 @@ void ATank::AimAt(FVector HitLocation)
 		HasAimingSolution = CurrentAimingSolution;
 	}
 }
-
-#pragma endregion DelegatedStuff
 

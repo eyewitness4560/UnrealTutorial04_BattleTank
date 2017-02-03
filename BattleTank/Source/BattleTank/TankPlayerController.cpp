@@ -4,6 +4,7 @@
 #include "BattleTank.h"
 
 #include "Public/Tank.h"
+#include "Public/TankAimingComponent.h"
 
 #include "TankPlayerController.h"
 
@@ -19,6 +20,17 @@ void ATankPlayerController::BeginPlay()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerControlle BeginPlay on %s"), *GetControlledTank()->GetName());
+	}
+
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No aiming component found!"))
+
 	}
 }
 void ATankPlayerController::Tick(float DeltaTime)

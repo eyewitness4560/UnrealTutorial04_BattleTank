@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 
+#include "Public/Tank.h"
 #include "Public/TankBarrel.h"
 #include "Public/TankTurret.h"
 
@@ -22,6 +23,12 @@ UTankAimingComponent::UTankAimingComponent()
 
 #pragma endregion UE
 
+void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
+{
+	if (!BarrelToSet || !TurretToSet) return;
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
+}
 
 bool UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 {
@@ -29,6 +36,8 @@ bool UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+
+
 	auto OurTankName = GetOwner()->GetName();
 	auto TankBarrelEnd = Barrel->GetComponentLocation().ToString();
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLocation, Speed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace); // last 4 vars are not really included in the video
@@ -38,19 +47,19 @@ bool UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 		auto DesiredAimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrel(DesiredAimDirection);
 		MoveTurret(DesiredAimDirection);
+		
 	}
+	FiringState = bHaveAimSolution ? EFiringStates::Locked : EFiringStates::Aiming;
+
 	return bHaveAimSolution;
+
 }
 
-void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
-{
-	if (!BarrelToSet || !TurretToSet) return;
-	Barrel = BarrelToSet;
-	Turret = TurretToSet;
-}
 
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {
+	if (!Barrel) return;
+
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
@@ -58,9 +67,9 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	Barrel->Elevate(DeltaRotator.Pitch);
 
 }
-
 void UTankAimingComponent::MoveTurret(FVector AimDirection)
 {
+	if (!Turret) return;
 	auto TurretRotation = Turret->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - TurretRotation;

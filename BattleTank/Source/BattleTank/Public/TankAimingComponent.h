@@ -36,15 +36,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-protected:
-
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-		EFiringStates FiringState = EFiringStates::Locked;
+		EFiringStates FiringState = EFiringStates::Reloading;
+protected:
 
 
 private:
-
-
+	
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 

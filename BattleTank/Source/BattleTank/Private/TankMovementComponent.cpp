@@ -21,7 +21,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 	IntendTurnRight(FMath::Clamp((RightThrow*100.f), -1.f, 1.f));
 
-	UE_LOG(LogTemp, Warning, TEXT(" %s movement direction is %s"), *GetOwner()->GetName(), *(AIForwardIntention.ToString()));
+	//UE_LOG(LogTemp, Warning, TEXT(" %s movement direction is %s"), *GetOwner()->GetName(), *(AIForwardIntention.ToString()));
 	GoThisWay = AIForwardIntention;
 }
 
