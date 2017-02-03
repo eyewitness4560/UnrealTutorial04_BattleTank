@@ -42,7 +42,7 @@ void ATank::Fire()
 
 void ATank::Initialize(UTankAimingComponent * AimingComponentToSet, UTankBarrel * BarrelToSet)
 {
-	if (!AimingComponentToSet || !BarrelToSet) return;
+	if (!ensure(AimingComponentToSet && BarrelToSet)) return;
 	TankAimingComponent = AimingComponentToSet;
 	Barrel = BarrelToSet;
 }

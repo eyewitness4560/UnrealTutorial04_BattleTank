@@ -15,23 +15,15 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (GetControlledTank() == nullptr) { UE_LOG(LogTemp, Error, TEXT("NoControlledTankAvailable!")); return; }
-
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerControlle BeginPlay on %s"), *GetControlledTank()->GetName());
-	}
+	if (!ensure(GetControlledTank())) { UE_LOG(LogTemp, Error, TEXT("NoControlledTankAvailable!")); return; }
 
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent)
-	{
-		FoundAimingComponent(AimingComponent);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("No aiming component found!"))
 
+	if (ensure(AimingComponent))
+	{
+		FoundAimingComponent(AimingComponent);	
 	}
+	else{UE_LOG(LogTemp, Error, TEXT("No aiming component found!"))	return;	}
 }
 void ATankPlayerController::Tick(float DeltaTime)
 {
@@ -48,7 +40,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) return;
+	if (!ensure(GetControlledTank())) return;
 
 
 	FVector HitLocation; //OUT parameter
