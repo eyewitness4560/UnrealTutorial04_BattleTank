@@ -27,12 +27,12 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-#pragma region UE
+#pragma region UEPublic
 
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-#pragma endregion UE
+#pragma endregion UEPublic
 
 	bool AimAt(FVector HitLocation);
 
@@ -51,13 +51,14 @@ protected:
 		EFiringStates FiringState = EFiringStates::Reloading;
 
 private:
-#pragma region UE
+#pragma region UEPrivate
 
 	virtual void BeginPlay()override;
 	virtual void TickComponent(float DeltatTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
-#pragma endregion UE
+#pragma endregion UEPrivate
 
+	bool IsBarrelMoving();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		float ReloadTimeInSecs = 3.0;
@@ -68,9 +69,10 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
-	void MoveBarrel(FVector AimDirection);
-	void MoveTurret(FVector AimDirection);
+	void MoveBarrel();
+	void MoveTurret();
 
+	FVector AimDirection;
 
 	double LastFireTime = FPlatformTime::Seconds();
 };

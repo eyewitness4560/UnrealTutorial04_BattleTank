@@ -28,8 +28,6 @@ void ATankPlayerController::Tick(float DeltaTime)
 void ATankPlayerController::AimTowardsCrosshair()
 {
 	if (!ensure(GetPawn())) return;
-
-
 	FVector HitLocation; //OUT parameter
 
 	//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
