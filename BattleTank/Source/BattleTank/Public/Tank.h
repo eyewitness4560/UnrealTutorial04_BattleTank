@@ -24,6 +24,8 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	void BeginPlay();
+
 #pragma endregion Ue
 
 	UPROPERTY(EditAnywhere, Category = "Firing")
@@ -43,8 +45,6 @@ public:
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-		void Initialize(UTankAimingComponent* AimingComponentToSet, UTankBarrel* BarrelToSet);
 
 	UFUNCTION(BLueprintCallable, Category = "Setup")
 		UTankAimingComponent* GetTankAimingComponent() const;

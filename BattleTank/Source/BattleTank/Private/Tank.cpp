@@ -20,6 +20,14 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+	Barrel = FindComponentByClass<UTankBarrel>();
+}
+
 #pragma endregion UE
 
 
@@ -34,16 +42,8 @@ void ATank::Fire()
 		//spawn projectile at the socket location of the barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 		Projectile->LaunchProjectile(LaunchSpeed);
-		UE_LOG(LogTemp, Warning, TEXT("Launched "));
-		LastFireTime = FPlatformTime::Seconds();
+		LastFireTime = FPlatformTime::Seconds(); 
 	}
-}
-
-void ATank::Initialize(UTankAimingComponent * AimingComponentToSet, UTankBarrel * BarrelToSet)
-{
-	if (!ensure(AimingComponentToSet && BarrelToSet)) return;
-	TankAimingComponent = AimingComponentToSet;
-	Barrel = BarrelToSet;
 }
 
 UTankAimingComponent* ATank::GetTankAimingComponent() const
