@@ -8,6 +8,7 @@
 class ATank;
 class UTankAimingComponent;
 
+
 /**
  *
  */
@@ -44,9 +45,9 @@ public:
 	bool GetLookVectorHitLocation(FVector&, FVector&, FVector&) const;
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-		ATank* GetControlledTank() const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 		void FoundAimingComponent(UTankAimingComponent* AimingCompRef);
+
+	UTankAimingComponent* AimingComponent = nullptr;
 };

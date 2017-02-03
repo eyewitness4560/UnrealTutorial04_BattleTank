@@ -3,27 +3,19 @@
 
 #include "BattleTank.h"
 
-#include "Public/Tank.h"
 #include "Public/TankAimingComponent.h"
 
 #include "TankPlayerController.h"
-
-
 
 #pragma region UE4 Begin, Tick
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!ensure(GetControlledTank())) { UE_LOG(LogTemp, Error, TEXT("NoControlledTankAvailable!")); return; }
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-
-	if (ensure(AimingComponent))
-	{
-		FoundAimingComponent(AimingComponent);	
-	}
-	else{UE_LOG(LogTemp, Error, TEXT("No aiming component found!"))	return;	}
+	if (ensure(AimingComponent))	{FoundAimingComponent(AimingComponent);		}
+	else	{UE_LOG(LogTemp, Error, TEXT("No aiming component found!"))	return;	}
 }
 void ATankPlayerController::Tick(float DeltaTime)
 {
@@ -33,14 +25,9 @@ void ATankPlayerController::Tick(float DeltaTime)
 }
 #pragma endregion UE4 Begin, Tick
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ensure(GetControlledTank())) return;
+	if (!ensure(GetPawn())) return;
 
 
 	FVector HitLocation; //OUT parameter
@@ -49,7 +36,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLocation(HitLocation))  //has a side effect that's going to line trace
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 }
 

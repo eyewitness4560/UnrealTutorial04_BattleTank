@@ -30,7 +30,7 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	Turret = TurretToSet;
 }
 
-bool UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
+bool UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!Barrel || !Turret) return false;
 
@@ -40,7 +40,7 @@ bool UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 
 	auto OurTankName = GetOwner()->GetName();
 	auto TankBarrelEnd = Barrel->GetComponentLocation().ToString();
-	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLocation, Speed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace); // last 4 vars are not really included in the video
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLocation, LaunchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace); // last 4 vars are not really included in the video
 
 	if (bHaveAimSolution)
 	{
@@ -54,7 +54,6 @@ bool UTankAimingComponent::AimAt(FVector HitLocation, float Speed)
 	return bHaveAimSolution;
 
 }
-
 
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {

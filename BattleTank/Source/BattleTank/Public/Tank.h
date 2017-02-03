@@ -28,6 +28,8 @@ public:
 
 #pragma endregion Ue
 
+
+	//TODO: remove after fire has been removed from class
 	UPROPERTY(EditAnywhere, Category = "Firing")
 		float LaunchSpeed = 6000;
 
@@ -36,7 +38,6 @@ public:
 
 	double LastFireTime = FPlatformTime::Seconds();
 
-	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = Firing)
 		void Fire();
@@ -53,7 +54,5 @@ protected:
 
 	UTankAimingComponent * TankAimingComponent = nullptr;
 	UTankBarrel * Barrel = nullptr;
-
-	bool HasAimingSolution = false;
-
+	
 };

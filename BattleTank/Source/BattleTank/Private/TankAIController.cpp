@@ -3,35 +3,38 @@
 
 #include "BattleTank.h"
 
-#include "Public/Tank.h"
+#include "Public/TankAimingComponent.h"
 
 #include "TankAIController.h"
+
+#pragma region UE
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-}
 
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent))return;
+
+}
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	auto ControlledTank = Cast<ATank>(GetPawn());
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto ControlledTank = GetPawn();
 
-	if (PlayerTank)
-	{
-		// move towards the player
-		MoveToActor(PlayerTank,AcceptanceRadius);
+	if (!ensure(PlayerTank && ControlledTank))return;
 
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+	MoveToActor(PlayerTank, AcceptanceRadius);
 
-		// fire if ready
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
 
-		ControlledTank->Fire();
-	}
+	// TODO: Fix firing
+	// ControlledTank->Fire();
 }
 
+#pragma endregion
 
 
 

@@ -30,8 +30,6 @@ void ATank::BeginPlay()
 
 #pragma endregion UE
 
-
-
 void ATank::Fire()
 {
 
@@ -51,12 +49,4 @@ UTankAimingComponent* ATank::GetTankAimingComponent() const
 	return TankAimingComponent;
 }
 
-void ATank::AimAt(FVector HitLocation)
-{
-	bool CurrentAimingSolution = TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-	if (CurrentAimingSolution != HasAimingSolution)
-	{
-		HasAimingSolution = CurrentAimingSolution;
-	}
-}
 
