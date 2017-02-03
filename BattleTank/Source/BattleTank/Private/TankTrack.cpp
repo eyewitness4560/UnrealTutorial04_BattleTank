@@ -6,6 +6,45 @@
 
 
 
+
+#pragma region UE
+
+UTankTrack::UTankTrack()
+{
+	PrimaryComponentTick.bCanEverTick = true;
+
+}
+
+void UTankTrack::BeginPlay()
+{
+	Super::BeginPlay();
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit); //registered the OnHit event
+
+}
+
+void UTankTrack::TickComponent(float DeltatTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	auto RightDirection = GetRightVector();
+	auto MovementDirection = GetComponentVelocity();
+
+	auto SlippageSpeed = FVector::DotProduct(RightDirection, MovementDirection);
+
+	auto CorrectionAccel = SlippageSpeed / DeltatTime * -RightDirection;
+
+	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
+
+	auto correctiveForce = TankRoot->GetMass()*CorrectionAccel / 2;
+
+	TankRoot->AddForce(correctiveForce);
+
+}
+void UTankTrack::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("ANYÁÁÁÁD"));
+}
+
+#pragma endregion UE
+
 void UTankTrack::SetThrottle(float throttle)
 {
 	auto ForceApplied = GetForwardVector()*FMath::Clamp(throttle, -1.f, 1.f) * (TrackMaxDrivingForce / 2.0f);
@@ -21,3 +60,4 @@ void UTankTrack::SetThrottle(float throttle)
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocationFwd);
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocationRwd);
 }
+
