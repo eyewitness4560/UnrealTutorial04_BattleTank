@@ -26,6 +26,7 @@ public:
 
 #pragma endregion UE
 
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
 	float AcceptanceRadius = 3000.0f; 
 
 	UTankAimingComponent* AimingComponent = nullptr;

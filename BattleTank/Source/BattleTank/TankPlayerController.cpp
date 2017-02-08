@@ -32,6 +32,10 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 
+	bool bGotHitLoc = GetSightRayHitLocation(HitLocation);
+
+	//UE_LOG(LogTemp, Warning, TEXT("bGotHitLoc: %i"), bGotHitLoc);
+
 	if (GetSightRayHitLocation(HitLocation))  //has a side effect that's going to line trace
 	{
 		AimingComponent->AimAt(HitLocation);
@@ -44,15 +48,8 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	FVector LookDir;
 	if (GetLookDirection(LookDir, CamWorldLoc))
 	{
-		if (GetLookVectorHitLocation(LookDir, CamWorldLoc, HitLocation))
-			return true;
-
+		return GetLookVectorHitLocation(LookDir, CamWorldLoc, HitLocation);
 	}
-	//line trace through the projection, see what we hit (up to max range)
-
-
-
-
 	return	false;
 }
 FVector2D ATankPlayerController::ScreenLocation() const

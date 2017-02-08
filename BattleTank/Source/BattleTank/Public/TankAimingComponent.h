@@ -46,6 +46,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
+
+	EFiringStates GetFiringState() const;
+
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringStates FiringState = EFiringStates::Reloading;
@@ -75,4 +79,5 @@ private:
 	FVector AimDirection;
 
 	double LastFireTime = FPlatformTime::Seconds();
+
 };

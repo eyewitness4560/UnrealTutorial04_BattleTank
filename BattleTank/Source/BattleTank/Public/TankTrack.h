@@ -24,6 +24,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 		void SetThrottle(float throttle);
 
+	void DriveTrack();
+
 	UPROPERTY(EditDefaultsOnly)
 		float TrackMaxDrivingForce = 100000; //this is max force per track in newtons
 
@@ -31,11 +33,12 @@ private:
 #pragma region UEPrivate
 
 	virtual void BeginPlay()override;
-	virtual void TickComponent(float DeltatTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 #pragma endregion UEPrivate
 
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
+	void ApplySidewaysForce();
+	float CurrentThrottle = 0.0f;
 };

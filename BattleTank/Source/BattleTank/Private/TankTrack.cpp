@@ -11,45 +11,53 @@
 
 UTankTrack::UTankTrack()
 {
-	PrimaryComponentTick.bCanEverTick = true;
-
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UTankTrack::BeginPlay()
 {
 	Super::BeginPlay();
 	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit); //registered the OnHit event
-
 }
 
-void UTankTrack::TickComponent(float DeltatTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+void UTankTrack::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
 {
+	ApplySidewaysForce();
+	DriveTrack();
+	CurrentThrottle = 0.0f;
+
+	//UE_LOG(LogTemp,Warning,TEXT(" TrackOnGround %f"),GetWorld()->TimeSeconds)
+}
+
+void UTankTrack::ApplySidewaysForce()
+{
+	float DeltaTime = GetWorld()->DeltaTimeSeconds;
 	auto RightDirection = GetRightVector();
 	auto MovementDirection = GetComponentVelocity();
 
 	auto SlippageSpeed = FVector::DotProduct(RightDirection, MovementDirection);
 
-	auto CorrectionAccel = SlippageSpeed / DeltatTime * -RightDirection;
+	auto CorrectionAccel = SlippageSpeed / DeltaTime * -RightDirection;
 
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 
 	auto correctiveForce = TankRoot->GetMass()*CorrectionAccel / 2;
 
 	TankRoot->AddForce(correctiveForce);
-
-}
-void UTankTrack::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
-{
-	UE_LOG(LogTemp, Warning, TEXT("ANY¡¡¡¡D"));
 }
 
 #pragma endregion UE
 
 void UTankTrack::SetThrottle(float throttle)
 {
-	auto ForceApplied = GetForwardVector()*FMath::Clamp(throttle, -1.f, 1.f) * (TrackMaxDrivingForce / 2.0f);
+	CurrentThrottle = FMath::Clamp(CurrentThrottle + throttle, -1.0f, 1.0f);
+}
 
-	FVector ForceOffset = FVector().ForwardVector * FVector(2000);
+void UTankTrack::DriveTrack()
+{
+	auto ForceApplied = GetForwardVector()*FMath::Clamp(CurrentThrottle, -1.f, 1.f) * (TrackMaxDrivingForce / 2.0f);
+
+	FVector ForceOffset = FVector().ForwardVector * FVector(300);
 
 	auto ForceLocationFwd = GetComponentLocation() + ForceOffset;
 	auto ForceLocationRwd = GetComponentLocation() - ForceOffset;
