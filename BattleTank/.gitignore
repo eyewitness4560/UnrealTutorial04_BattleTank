@@ -63,4 +63,4 @@ Intermediate/*
 DerivedDataCache/*
 
 # Ignore VS Intellisense Cache
-BattleTank/ipch/
+ipch/
