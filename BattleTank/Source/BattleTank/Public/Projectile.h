@@ -26,10 +26,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Special")
 		UProjectileMovementComponent* GetProjectileMovementComponent();
 
+protected:
+
+
 private:
 
 
 	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
+
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UStaticMeshComponent* CollisionMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UParticleSystemComponent* LaunchBlast = nullptr;
+
 
 
 

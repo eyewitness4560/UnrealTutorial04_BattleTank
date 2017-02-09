@@ -51,7 +51,7 @@ public:
 	EFiringStates GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-		int GetAmmoCount() const;
+		int32 GetAmmoCount() const;
 
 protected:
 
@@ -88,6 +88,6 @@ private:
 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-		int AmmoCount = 3;
+		int32 AmmoCount = 3;
 
 };
