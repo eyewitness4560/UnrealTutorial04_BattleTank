@@ -16,6 +16,9 @@ class BATTLETANK_API ATank : public APawn
 
 public:
 
+	UFUNCTION(BlueprintPure,Category="Health")
+	float GetHealthPercent() const;
+
 #pragma region Ue
 
 	// Sets default values for this pawn's properties
@@ -23,9 +26,14 @@ public:
 
 	void BeginPlay();
 
+	virtual float TakeDamage(float Damage, struct FDamageEvent const &DamageEvent, AController* EventInstigator, AActor* DamageCauser)override;
+
 #pragma endregion Ue
 
 
 protected:
-	
+
+	float CurrentHealth = 100.0f;
+	float MaxHealth = 100.0f;
+
 };

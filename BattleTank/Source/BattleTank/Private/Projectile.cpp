@@ -31,7 +31,7 @@ AProjectile::AProjectile()
 	ProjectileMovementComponent->bAutoActivate = false;
 
 	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("ExplosionForce"));
-	ExplosionForce->AttachToComponent(CollisionMesh,FAttachmentTransformRules::KeepRelativeTransform);
+	ExplosionForce->AttachToComponent(CollisionMesh, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // Called when the game starts or when spawned
@@ -62,5 +62,28 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	ExplosionForce->FireImpulse();
+
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	// damage enemy tank
+
+	UGameplayStatics::ApplyRadialDamage(
+		this,
+		DamageAmount,
+		GetActorLocation(),
+		ExplosionForce->Radius,
+		UDamageType::StaticClass(),
+		TArray<AActor*>()
+	);
+
+
+
+	FTimerHandle FTH;
+	GetWorld()->GetTimerManager().SetTimer(FTH, this, &AProjectile::OnTimerExpire, DestroyDelay, false);
 }
 
+void AProjectile::OnTimerExpire()
+{
+	Destroy();
+}

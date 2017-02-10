@@ -10,6 +10,11 @@
 
 #pragma region UE
 
+float ATank::GetHealthPercent() const
+{
+	return CurrentHealth / MaxHealth;
+}
+
 // Sets default values
 ATank::ATank()
 {
@@ -19,6 +24,19 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+float ATank::TakeDamage(float Damage, struct FDamageEvent const &DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float DamageToApply = FMath::Clamp(Damage, 0.0f, CurrentHealth);
+	CurrentHealth -= DamageToApply;
+
+	UE_LOG(LogTemp, Warning, TEXT("Damaged %f"), CurrentHealth);
+	if (CurrentHealth <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("YOU DIED"));
+	}
+	return DamageToApply;
 }
 
 #pragma endregion UE
