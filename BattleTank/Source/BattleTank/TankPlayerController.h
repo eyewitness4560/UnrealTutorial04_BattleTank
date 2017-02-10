@@ -17,11 +17,12 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:	
-	#pragma region UE
+public:
+#pragma region UE
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float) override;
+	virtual void SetPawn(APawn* InPawn)override;
 
 #pragma endregion UE
 
@@ -42,6 +43,9 @@ public:
 	bool GetLookVectorHitLocation(FVector&, FVector&, FVector&) const;
 
 protected:
+
+	UFUNCTION()
+		void HandleOnDeathEvent();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 		void FoundAimingComponent(UTankAimingComponent* AimingCompRef);

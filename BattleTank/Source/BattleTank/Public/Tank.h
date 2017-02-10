@@ -7,7 +7,7 @@
 
 #include "Tank.generated.h"
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeath);
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -16,8 +16,8 @@ class BATTLETANK_API ATank : public APawn
 
 public:
 
-	UFUNCTION(BlueprintPure,Category="Health")
-	float GetHealthPercent() const;
+	UFUNCTION(BlueprintPure, Category = "Health")
+		float GetHealthPercent() const;
 
 #pragma region Ue
 
@@ -27,6 +27,8 @@ public:
 	void BeginPlay();
 
 	virtual float TakeDamage(float Damage, struct FDamageEvent const &DamageEvent, AController* EventInstigator, AActor* DamageCauser)override;
+
+	FOnDeath OnDeath;
 
 #pragma endregion Ue
 

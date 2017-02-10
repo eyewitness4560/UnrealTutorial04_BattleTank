@@ -4,6 +4,7 @@
 #include "BattleTank.h"
 
 #include "Public/TankAimingComponent.h"
+#include "Public/Tank.h"
 
 #include "TankPlayerController.h"
 
@@ -23,6 +24,22 @@ void ATankPlayerController::Tick(float DeltaTime)
 	//UE_LOG(LogTemp, Warning, TEXT("TickDelta: %f"), DeltaTime);
 	AimTowardsCrosshair();
 }
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		auto PosessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PosessedTank))return;
+
+		PosessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::HandleOnDeathEvent);
+	}
+
+
+}
+
 #pragma endregion UE4 Begin, Tick
 
 void ATankPlayerController::AimTowardsCrosshair()
@@ -74,4 +91,9 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector& LookDirection, FVe
 	}
 	Hit = FVector(0);
 	return false;
+}
+
+void ATankPlayerController::HandleOnDeathEvent()
+{
+	UE_LOG(LogTemp, Warning, TEXT("DEATH HANDLE in PlayerController"));
 }
