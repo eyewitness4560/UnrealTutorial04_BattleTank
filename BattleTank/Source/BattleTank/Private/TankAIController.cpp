@@ -34,10 +34,6 @@ void ATankAIController::SetPawn(APawn* InPawn)
 	}
 }
 
-void ATankAIController::HandleOnDeathEvent()
-{
-	UE_LOG(LogTemp, Warning, TEXT("DEATH HANDLE in AI controller"));
-}
 
 void ATankAIController::Tick(float DeltaTime)
 {
@@ -58,4 +54,12 @@ void ATankAIController::Tick(float DeltaTime)
 #pragma endregion
 
 
+void ATankAIController::HandleOnDeathEvent()
+{
+	auto Pawn = GetPawn();
+	if (!Pawn) return;
+	Pawn->DetachFromControllerPendingDestroy();
+
+	UE_LOG(LogTemp, Warning, TEXT("DEATH HANDLE in AI controller"));
+}
 

@@ -10,12 +10,6 @@
 
 #pragma region UE
 
-float ATank::GetHealthPercent() const
-{
-	return CurrentHealth / MaxHealth;
-}
-
-// Sets default values
 ATank::ATank()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -24,7 +18,10 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+	CurrentHealth = MaxHealth;
 }
+
+#pragma endregion UE
 
 float ATank::TakeDamage(float Damage, struct FDamageEvent const &DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
@@ -39,7 +36,9 @@ float ATank::TakeDamage(float Damage, struct FDamageEvent const &DamageEvent, AC
 	return DamageToApply;
 }
 
-#pragma endregion UE
 
-
+float ATank::GetHealthPercent() const
+{
+	return CurrentHealth / MaxHealth;
+}
 

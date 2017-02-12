@@ -15,8 +15,8 @@ void ATankPlayerController::BeginPlay()
 
 	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
-	if (ensure(AimingComponent))	{FoundAimingComponent(AimingComponent);		}
-	else	{UE_LOG(LogTemp, Error, TEXT("No aiming component found!"))	return;	}
+	if (ensure(AimingComponent)) { FoundAimingComponent(AimingComponent); }
+	else { UE_LOG(LogTemp, Error, TEXT("No aiming component found!"))	return; }
 }
 void ATankPlayerController::Tick(float DeltaTime)
 {
@@ -36,8 +36,6 @@ void ATankPlayerController::SetPawn(APawn* InPawn)
 
 		PosessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::HandleOnDeathEvent);
 	}
-
-
 }
 
 #pragma endregion UE4 Begin, Tick
@@ -95,5 +93,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector& LookDirection, FVe
 
 void ATankPlayerController::HandleOnDeathEvent()
 {
+	StartSpectatingOnly();
 	UE_LOG(LogTemp, Warning, TEXT("DEATH HANDLE in PlayerController"));
 }
